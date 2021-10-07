@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <button type="button" name="button" id="display-todos">Display Todos</button>
+    <button type="button" name="button" id="toggle"> Toggle All</button>
+    <button type="button" name="button" id="add-button"> Add </button>
+
+
+    <input id="add-text">
+
+    <ul id="todo-ul">
+    </ul>
+    <script type="text/javascript">
+
+      var todos = [{todoText:'Item1',completed:true},
+        {todoText:'Item2',completed:true},
+        {todoText:'Item3',completed:true}];
+
+      // todos[1] ='Item2 updated';
+      //todos.splice(0,1);    //Splice is used to delete an element from the list or array and it returns the deleted element.
+                            // splice(the position of the elementto be deleted, the no. of items to be deleted)
+
+      function add(){
+        var myData=addText.value;
+        todos.push({todoText:myData,completed:false});
+        addText.value ='';
+        displayTodo();
+      }
+
+      function edit(event){
+        var newValue = prompt('Edit');
+        if(newValue !== null && newValue!==''){
+            var position = event.currentTarget.id;
+            todos[position].todoText = newValue;
+            displayTodo();
+          }
+        }
+
+      function remove(event){
+
+        var pos = event.currentTarget.id;
+        todos.splice(pos,1);
+        displayTodo();
+      }
+
+      function toggle(event){
+
+        var position = event.currentTarget.id;
+
+        if(todos[position].completed===false){
+          todos[position].completed = true;
+        }
+        else{
+          todos[position].completed = false;
+        }
+
+        displayTodo();
+      }
+
+      function displayTodo(){
+        var todoul = document.getElementById('todo-ul');
+        //we want to clear out any existing lis inside of todoul
+        todoul.innerHTML ='';
+
+        for( var i=0;i<todos.length;i++){
+        var testtodo = document.createElement('li');
+        if(todos[i].completed===true){
+          //[X] Item1
+          testtodo.innerText = '[X] '+ todos[i].todoText;
+        }
+        else{
+          //[] Item1
+          testtodo.innerText = '[] '+ todos[i].todoText;
+        }
+        var removeButton = document.createElement('button');
+        removeButton.innerText='Remove';
+        removeButton.addEventListener('click',remove);
+        removeButton.id = i;
+
+        testtodo.appendChild(removeButton);
+        todoul.appendChild(testtodo);
+
+        var toggleClick = document.createElement('button');
+        toggleClick.innerText = 'Toggle';
+        toggleClick.addEventListener('click',toggle);
+        toggleClick.id = i;
+
+        testtodo.appendChild(toggleClick);
+        todoul.appendChild(testtodo);
+
+        var editButton = document.createElement('button');
+        editButton.innerText = 'Edit';
+        editButton.addEventListener('click',edit);
+        editButton.id =i;
+
+        testtodo.appendChild(editButton);
+        todoul.appendChild(testtodo);
+        }
+      }
+      function toggleAll(){
+        var compToggle=0;
+        for(var i=0;i<todos.length;i++){
+          if(todos[i].completed===true){
+            compToggle++;
+          }
+        }
+        if(compToggle==todos.length){
+          for(var i=0;i<todos.length;i++){
+              todos[i].completed=false;
+            }
+
+          }
+          else{
+            for(var i=0;i<todos.length;i++){
+              todos[i].completed=true;
+            }
+          }
+          displayTodo();
+        }
+
+        var dispTodosButton = document.getElementById('display-todos');
+        dispTodosButton.addEventListener('click',displayTodo);
+
+        var toggleAllButton = document.getElementById('toggle');
+        toggleAllButton.addEventListener('click', toggleAll);
+
+        var addButton = document.getElementById('add-button');
+        var addText = document.getElementById('add-text');
+
+        addButton.addEventListener('click', add);
+
+        // var editButton = document.getElementById('edit-button');
+        // var editTextInput = document.getElementById('edit-text');
+        // var editPositionInput = document.getElementById('edit-pos');
+        //
+        // editButton.addEventListener('click',edit);
+
+        // var removeButton = document.getElementById('remove-button');
+        // var removeItem = document.getElementById('remove-item');
+        //
+        // removeButton.addEventListener('click', remove);
+        // we used currentTarget , so the above stuff becomes not important.
+
+
+
+        // var todoul = document.getElementById('todo-ul');
+        // var testtodo = document.createElement('li');
+
+        // todoul.appendChild(testtodo);
+
+
+      // function remove(pos){
+      //   todos.splice(pos,1);
+      //   console.log(todos);
+      // }
+      // remove(0);
+      //
+      // function demo(a,b){
+      //   console.log(a);
+      //   console.log(b);
+      // }
+      // demo(1);
+      // //objects
+      // var item =[{name:"here",completed:true},{location:"there",completed:false}];
+      // console.log(item[0].name);
+      // console.log(item[0].completed);
+      // console.log(item[1].completed);
+      //
+      // var sneha = {
+      //   name:"Subin",
+      //   location:"alpy",
+      //   printers : function redo(){
+      //     console.log("here i am");
+      //   }
+      // };
+      // sneha.printers();
+
+
+    </script>
+  </body>
+</html>
